@@ -14,8 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private UserDao userDao;
-    private PasswordEncoder passwordEncoder;
+    private final UserDao userDao;
+    private final PasswordEncoder passwordEncoder;
 
     public UserSavingDto save(UserSavingDto userSavingDto){
 
@@ -30,6 +30,15 @@ public class UserService {
         return savedUserSavingDto;
     }
 
+    public User findByEmail(String email){
+        Optional<User> optionalUser  = userDao.findByEmail(email);
+        User user = null;
+        if(optionalUser.isPresent()){
+            user = optionalUser.get();
+        }
+        return user;
+    }
+
 
     public Long findIdByUsername(String username) {
 
@@ -42,5 +51,15 @@ public class UserService {
         return user.getId();
     }
 
+    public User findById(Long id) {
+        Optional<User> optionalUser  = userDao.findById(id);
+        User user = null;
+
+        if(optionalUser.isPresent()){
+            user = optionalUser.get();
+        }
+        return user;
+
+    }
 
 }
